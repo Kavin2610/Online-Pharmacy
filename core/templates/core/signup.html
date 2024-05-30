@@ -1,0 +1,148 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block extra_title %}
+
+{% block title %}Sign up{% endblock %}
+<style>
+    .error{
+        color:red;
+        font-size : 0.875rem;
+        margin-top: 0.25rem;
+        
+
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+    <h1 class="mb-6 text-3xl">Sign up</h1>
+
+    <form method="post" id = "signup" action="." novalidate>
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="username">Username</label><br>
+            {{ form.username }}
+            <p id="usernameError" class="error" style="color: red;"></p>
+    
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="first_name">First Name</label><br>
+            {{ form.first_name }}
+            <p id="usernameError" class="error" style="color: red;"></p>
+    
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="last_name">Last Name</label><br>
+            {{ form.last_name }}
+            <p id="usernameError" class="error" style="color: red;"></p>
+    
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="email">Email</label><br>
+            {{ form.email }}
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="password">Password</label><br>
+            {{ form.password1 }}
+        </div>
+
+        <div class="mb-3">
+            <label class="inline-block mb-2" for="repeatpassword">Repeat password</label><br>
+            {{ form.password2 }}
+        </div>
+
+        
+
+
+        <button id="submit" class="py-4 px-8 text-lg bg-teal-500 hover:bg-teal-700 rounded-xl text-white">Submit</button>
+    </form>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('signup').addEventListener('submit', function (event) {
+            // Validate username
+            var username = document.getElementById('username').value;
+            if (!username || username.length < 3 || username.length > 20 || !/^[a-zA-Z0-9_.]+$/.test(username)) {
+                alert('Please enter a valid username (3-20 characters, letters, numbers, underscores, and periods only)');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validate first name
+            var firstname = document.getElementById('first_name').value;
+            if (!firstname) {
+                alert('Please enter your first name');
+                event.preventDefault();
+                return false;
+            } else if (!/^[a-zA-Z]+$/.test(firstname)) {
+                alert('First name should only contain letters');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validate last name
+            var lastname = document.getElementById('last_name').value;
+            if (!lastname) {
+                alert('Please enter your last name');
+                event.preventDefault();
+                return false;
+            }
+            else if (!/^[a-zA-Z]+$/.test(lastname)) {
+                alert('Last name should only contain letters');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validate email
+            var email = document.getElementById('email').value;
+            if (!email) {
+                alert('Please enter your email');
+                event.preventDefault();
+                return false;
+            }
+            else if (!/\S+@\S+\.\S+/.test(email)) {
+                alert('Please enter a valid email address');
+                event.preventDefault();
+                return false;
+            }
+
+
+
+            // Validate password
+            var password = document.getElementById('password').value;
+            if (!password) {
+                alert('Please enter a password');
+                event.preventDefault();
+                return false;
+            }
+
+            // Validate repeat password
+            var repeatpassword = document.getElementById('repeatpassword').value;
+            if (!repeatpassword) {
+                alert('Please repeat your password');
+                event.preventDefault();
+                return false;
+            }
+
+            // Check if passwords match
+            if (password !== repeatpassword) {
+                alert('Passwords do not match');
+                event.preventDefault();
+                return false;
+            }
+
+            // Form is valid, continue with submission
+            return true;
+        });
+    });
+</script>
+
+
+{% endblock %}

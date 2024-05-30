@@ -1,0 +1,63 @@
+<!-- chat.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface</title>
+    <!-- Add any necessary CSS or stylesheets here -->
+</head>
+<body>
+    <div id="chat-container">
+        <div id="chat-history">
+            <!-- Chat history will be displayed here -->
+        </div>
+        <div id="user-input">
+            <input type="text" id="user-query" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+            {% block content%}
+            <h2>{{response}}</h2>
+            {% endblock %}
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var sendButton = document.getElementById("send-button");
+            var userInput = document.getElementById("user-query");
+            var chatHistory = document.getElementById("chat-history");
+
+            sendButton.addEventListener("click", function() {
+                var message = userInput.value.trim();
+                if (message !== "") {
+                    sendMessage(message);
+                    userInput.value = ""; 
+                }
+            });
+
+            function sendMessage(message) {
+                var chatEntry = document.createElement("div");
+                chatEntry.textContent = "You: " + message;
+                chatHistory.appendChild(chatEntry);
+
+                fetch('/chat/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    },
+                    body: JSON.stringify({ query: message })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    var botEntry = document.createElement("div");
+                    botEntry.textContent = "Bot: " + data.response;
+                    chatHistory.appendChild(botEntry);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

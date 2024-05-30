@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 0 auto; padding: 20px; border-radius: 10px; background-color: #f5f5f5; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+    <h1 style="font-size: 32px; margin-bottom: 20px; color: #333;">Welcome {{ user.first_name }}</h1>
+    
+    <!-- Display User's Personal Details -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 24px; margin-bottom: 15px; color: #555;">Personal Details</h2>
+        <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Username:</strong> {{ user.username }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Name:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Email:</strong> {{ user.email }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Gender:</strong> {{ user_profile.gender }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Age:</strong> {{ user_profile.age }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Phone Number:</strong> {{ user_profile.phonenumber }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Address:</strong> {{ user_profile.address }}</p>
+            <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Prescriptions:</strong> {{ user.prescriptions }}</p>
+        </div>
+    </div>
+
+    <!-- Display User's Order History -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 24px; margin-bottom: 15px; color: #555;">Order History</h2>
+        <ul style="list-style: none; padding: 0;">
+            {% for order in orders %}
+                <li style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+                    <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Order ID:</strong> {{ order.id }}</p>
+                    <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Date:</strong> {{ order.date }}</p>
+                    <p style="margin: 10px 0; font-size: 18px; color: #333;"><strong>Total:</strong> {{ order.total }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+    <!-- Display User's Saved Addresses -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 24px; margin-bottom: 15px; color: #555;">Saved Addresses</h2>
+        <ul style="list-style: none; padding: 0;">
+            {% for address in addresses %}
+                <li style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); margin-bottom: 20px;">
+                    <p style="margin: 10px 0; font-size: 18px; color: #333;">{{ address }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+    <!-- Additional Information Section -->
+    <div style="margin-bottom: 30px;">
+        <h2 style="font-size: 24px; margin-bottom: 15px; color: #555;">Additional Information</h2>
+        <div style="background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
+            <form method="post">
+                {% csrf_token %}
+                
+                <label for="id_age" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">Age:</label>
+                {{ form.age }}
+
+                <label for="id_gender" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">Gender:</label>
+                {{ form.gender }}
+
+                <label for="id_address" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">Address:</label>
+                {{ form.address }}
+
+                <label for="id_phonenumber" style="display: block; margin-bottom: 10px; font-weight: bold; color: #555;">Phone Number:</label>
+                {{ form.phonenumber }}
+
+                <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Save</button>
+            </form>
+        </div>
+    </div>
+    <!-- End Additional Information Section -->
+
+     <!-- Email Verification Section -->
+    
+ 
+
+
+     <!-- End Email Verification Section -->
+</div>
+{% endblock %}

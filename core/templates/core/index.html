@@ -1,0 +1,332 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block extra_head %}
+<style>
+    /* Thumbnail image styling */
+    .thumbnail-image {
+        max-width: 150px;
+        /* Adjust the maximum width as needed */
+        height: auto;
+        display: block;
+        /* Ensures the image doesn't affect other elements */
+        margin: 0 auto;
+        /* Center the image horizontally */
+    }
+
+    /* Health tips section styling */
+    .health-tips {
+        margin-top: 40px;
+    }
+
+    .health-tips ul {
+        list-style: none;
+        /* Remove default list styles */
+        padding: 0;
+    }
+
+    .health-tips li {
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-bottom: 20px;
+        padding: 20px;
+    }
+
+    .health-tips h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .health-tips p {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 10px;
+    }
+
+    .health-tips a {
+        color: #007bff;
+        /* Link color */
+        text-decoration: none;
+        font-weight: bold;
+        display: inline-block;
+    }
+
+    .health-tips a:hover {
+        text-decoration: underline;
+        /* Underline on hover */
+    }
+
+    .slider-container {
+        overflow: hidden;
+        width: 1400px;
+        /* Adjust container width as needed */
+        height: 600px;
+        /* Adjust container height as needed */
+    }
+    .slider-container .card img {
+    width: 100%; /* Make the image fill the width of the card */
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100%; /* Ensure the image does not overflow vertically */
+}
+
+    .slider {
+        display: flex;
+        animation: slide 10s infinite;
+        /* Adjust animation duration as needed */
+    }
+
+    .card {
+        flex: 0 0 100%;
+        height: 100%;
+        padding: 20px;
+        background-color: #f0f0f0;
+    }
+
+    @keyframes slide {
+        0% {
+            transform: translateX(0);
+        }
+
+        33.33% {
+            transform: translateX(-100%);
+        }
+
+        66.66% {
+            transform: translateX(-200%);
+        }
+
+        100% {
+            transform: translateX(0);
+        }
+    }
+
+    .bg-gray-100 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.col-span-1 {
+    flex: 0 0 100%;
+    /* Adjust flex properties as needed */
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Search items -->
+
+
+    
+<div class="pb-19 grid grid-cols-40 gap-4 bg-grey-100">
+    <div class="col-span-40 flex justify-center items-center"> <!-- Adjust col-span and add flex properties -->
+        <p style="width: auto;"><strong>What are you looking for?</strong></p>
+    </div>
+    <div class="col-span-40 flex justify-center items-center"> <!-- Adjust col-span and add flex properties -->
+        <form method="get" action="{% url 'item:items' %}" class="flex">
+            <input name="query" class="w-full py-4 px-10 border rounded-xl" type="text" value="{{ query }}" placeholder="Find a tablet, a tonic, a syringe...">
+            <button class="ml-2 py-2 px-8 text-lg bg-green-500 text-white rounded-xl hover:bg-green-700">Search</button>
+        </form>
+    </div>
+</div>
+
+    <br>
+<hr>
+<br>
+
+
+<!-- search items ends here-->
+    <!-- Newest items -->
+    <h2 class="mb-12 text-3xl text-center font-semibold text-gray-800">Newest Items</h2>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+        {% for item in items %}
+        {% if item.category.name != "cleaning" %}
+        <div class="rounded-lg shadow-md overflow-hidden">
+            <a href="{% url 'item:detail' item.id %}">
+                <div class="relative">
+                    <img src="{{ item.image.url }}" class="w-full h-48 object-cover object-center transition-opacity hover:opacity-80" alt="{{ item.name }}">
+                    <div class="absolute inset-0 bg-gray-900 bg-opacity-50 transition-opacity opacity-0 hover:opacity-100 flex justify-center items-center">
+                        <p class="text-white text-lg font-semibold">View Details</p>
+                    </div>
+                </div>
+                <div class="p-6 bg-white">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ item.name }}</h2>
+                    <p class="text-gray-600">Price: {{ item.price }}</p>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<!--newest item ends-->
+
+<!-- slider for advertisement-->
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+<div class="slider-container">
+    <div class="slider">
+        <div class="card"><img src='media/advertisement_1.webp' alt="himalaya-advertisement"/></div>
+        <div class="card"><img src="media/advertisement_2.webp"/></div>
+        <div class="card"><img src="media/advertisement_3.webp"></div>
+    </div>
+</div>
+</div>
+
+
+<!-- end of sliders-->
+
+<!-- tablets -->
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-3xl text-center font-semibold text-gray-800">Tablets</h2>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+        {% for item in items %}
+        {% if item.category.name == "Tablets" %}
+        <div class="rounded-lg shadow-md overflow-hidden">
+            <a href="{% url 'item:detail' item.id %}">
+                <div class="relative">
+                    <img src="{{ item.image.url }}"
+                        class="w-full h-48 object-cover object-center transition-opacity hover:opacity-80"
+                        alt="{{ item.name }}">
+                    <div
+                        class="absolute inset-0 bg-gray-900 bg-opacity-50 transition-opacity opacity-0 hover:opacity-100 flex justify-center items-center">
+                        <p class="text-white text-lg font-semibold">View Details</p>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-white">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ item.name }}</h2>
+                    <p class="text-gray-600">Price: {{ item.price }}</p>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+</div>
+
+
+<!-- end tablets-->
+<!-- cleaning -->
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-3xl text-center font-semibold text-gray-800">Personal Care</h2>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-6">
+        {% for item in items %}
+        {% if item.category.name == "cleaning" %}
+        <div class="rounded-lg shadow-md overflow-hidden">
+            <a href="{% url 'item:detail' item.id %}">
+                <div class="relative">
+                    <img src="{{ item.image.url }}"
+                        class="w-full h-48 object-cover object-center transition-opacity hover:opacity-80"
+                        alt="{{ item.name }}">
+                    <div
+                        class="absolute inset-0 bg-gray-900 bg-opacity-50 transition-opacity opacity-0 hover:opacity-100 flex justify-center items-center">
+                        <p class="text-white text-lg font-semibold">View Details</p>
+                    </div>
+                </div>
+
+                <div class="p-6 bg-white">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ item.name }}</h2>
+                    <p class="text-gray-600">Price: {{ item.price }}</p>
+                </div>
+            </a>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<!--end cleaning-->
+
+<!-- order with prescription bootstrap-->
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="text-3xl font-semibold text-center mb-6">Order With Prescription</h2>
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src='media/prescription.svg' class="img-fluid rounded-start" alt="...">
+            </div>
+            <div class="col-md-8">
+
+                <div class="card-body">
+                    <p class="text-lg font-semibold mb-4">How it works:</p>
+                    <p class="card-text">
+                    <ol class="list-decimal list-inside mb-6">
+                        <li>Upload a photo of your prescription</li>
+                        <li>Add delivery address and place the order</li>
+                        <li>We will call you to confirm the medicines</li>
+                        <li>Now, sit back! your medicines will get delivered at your doorstep</li>
+                    </ol>
+                    </p>
+                    <button id="uploadButton" style="background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;">Upload Prescription</button>
+
+                    <script>
+                        document.getElementById("uploadButton").onclick = function () {
+                            window.location.href = "{% url 'item:prescription_upload' %}";
+                        };
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- order with prescription bootstrap ends-->
+<!-- Health tips -->
+<div class="mt-8 px-6 py-8 bg-gray-100 rounded-xl">
+    <div class="health-tips">
+        <h2 class="text-3xl font-semibold text-center mb-6">Health Tips and Articles</h2>
+        <ul>
+            {% for tip in health_tips %}
+            <li>
+                <h3>{{ tip.title }}</h3>
+                {% if tip.thumbnail %}
+                <img src="{{ tip.thumbnail.url }}" alt="{{ tip.title }}" class="thumbnail-image">
+                {% endif %}
+                <p>{{ tip.content }}</p>
+                <p>Published on: {{ tip.publication_date }}</p>
+                <a href="{{ tip.url }}" target="_blank">Read More</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<!-- health tips ends-->
+
+<!-- Categories section -->
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+    <h2 class="mb-12 text-3xl text-center font-semibold text-gray-800">Categories</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+        {% for category in categories %}
+        <div class="rounded-lg shadow-md overflow-hidden">
+            <a href="#" class="block">
+                <div class="p-6 bg-white">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ category.name }}</h2>
+                    <p class="text-gray-600">{{ category.items.count }} items</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="mt-8 px-6 py-12 bg-gray-100 rounded-xl">
+    <a href="contact"><img src="media/OneYes Pharmacy.png"/></a>
+</div>
+{% endblock %}

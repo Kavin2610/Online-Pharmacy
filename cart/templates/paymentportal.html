@@ -1,0 +1,23 @@
+{% extends 'core/base.html'%}
+{% block title%} payment portal {% endblock%}
+{%load static%}
+{% block content%}
+<p> this is the payment portal </p>
+  
+ 
+    <section>
+      <div class="product">
+        
+        <img src="{{item.image.url}}" alt="The cover of Stubborn Attachments" />
+        <div class="description">
+          <h3>{{item.Item}}</h3>
+          <h5>{{item.price}}</h5>
+        </div>
+      </div>
+      <form action="/create-checkout-session" method="POST">
+        <button type="submit" id="checkout-button">Checkout</button>
+      </form>
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Coupons</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css">
+  <style>
+    /* Custom CSS styles can be added here */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="my-4">Coupon Management</h1>
+    <a href="{% url 'dashboard:create_coupon' %}" style="color: green; text-decoration: none; font-weight: bold;">Create Coupon</a>
+
+   
+    
+
+    <!-- Coupon Details Table -->
+    <div class="card">
+      <div class="card-header">
+        Coupon Details
+      </div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Coupon Name</th>
+              <th scope="col">Coupon Code</th>
+              <th scope="col">Coupon Value</th>
+              <th scope="col">Usage Limit</th>
+              <th scope="col">Valid From</th>
+              <th scope="col">valid To</th>
+              <th scope="col">Delete</th>
+              
+              <!-- Add other columns as needed -->
+            </tr>
+          </thead>
+          <tbody>
+            {% for coupon in coupons %}
+            <tr>
+              <th scope="row">{{ forloop.counter }}</th>
+              <td>{{ coupon.coupon_name }}</td>
+              <td>{{ coupon.coupon_code }}</td>
+              <td>₹{{ coupon.coupon_value }}</td>
+              <td>{{coupon.usage_limit}} Time(s)</td>
+              <td>{{coupon.valid_from}}</td>
+              <td>{{coupon.valid_to}}</td>
+              <td><a href="{% url 'dashboard:delete_coupon' pk=coupon.pk %}" style="color: red; text-decoration: none; font-weight: bold;">Delete Coupon</a></td>
+              
+              <!-- Add other columns as needed -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

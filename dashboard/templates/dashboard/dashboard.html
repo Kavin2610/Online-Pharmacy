@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* General Styles */
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.wrapper {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  background-color: #343a40;
+  color: #fff;
+  width: 250px;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: #ccc;
+}
+
+/* Main Content Styles */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin-top: 0;
+}
+
+/* Grid Styles */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.grid-item {
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.grid-item i {
+  font-size: 2em;
+  margin-bottom: 10px;
+}
+
+.grid-item p {
+  font-size: 1.2em;
+  margin-bottom: 0;
+}
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="sidebar">
+      <h2>Admin Panel</h2>
+      <ul>
+  
+        <li><a href="{% url 'dashboard:dashboard_view' %}">Dashboard</a></li>
+        <li><a href="{% url 'dashboard:users' %}">Users</a></li>
+
+        <li><a href="{% url 'dashboard:products' %}">Products</a></li>
+        <li><a href="#">Orders</a></li>
+        <li><a href="{% url 'dashboard:prescriptions' %}">Prescriptions</a></li>
+        <li><a href="{% url 'dashboard:coupon' %}">Coupons</a></li>
+      </ul>
+    </div>
+    
+    <div class="main-content">
+      <div class="header">
+        <h1>Welcome, Admin</h1>
+        <p>Here's your overview of the system.</p>
+      </div>
+      
+      <div class="grid-container">
+        <div class="grid-item">
+          <i class="fas fa-users"></i> <span>Total Users</span>
+          <p id="userCount"></p>{{users_count}} </div>
+        <div class="grid-item">
+          <i class="fas fa-cubes"></i> <span>Total Items</span>
+          <p id="itemCount">{{item_count}}</p> </div>
+        <div class="grid-item">
+          <i class="fas fa-clipboard-list"></i> <span>Prescriptions</span>
+          <p id="prescriptionCount">{{prescription_count}}</p> </div>
+        <div class="grid-item">
+          <i class="fas fa-tags"></i> <span>Categories</span>
+          <p id="categoryCount">{{categories_count}}</p> </div>
+        <div class="grid-item">
+          <i class="fas fa-tags"></i> <span>Health Tips</span>
+          <p id="categoryCount">{{health_tips_count}}</p> </div>
+          <div class="grid-item">
+            <i class="fas fa-tags"></i> <span>Total Ratings</span>
+            <p id="categoryCount">{{rating_count}}</p> </div>
+            <div class="grid-item">
+              <i class="fas fa-tags"></i> <span>Coupon Count</span>
+              <p id="categoryCount">{{coupon_count}}</p> </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://kit.fontawesome.com/your-fontawesome-kit-code.js"></script> </body>
+</html>
+
