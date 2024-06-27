@@ -158,8 +158,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 #stripe.api_key = STRIPE_SECRET_KEY
 
 #second payment
-STRIPE_PUBLIC_KEY = 'pk_test_51Ny5mISFMZ7tthqy2w77M32j70gq63ssblqeYY8hiOgVltO6GCREGbXaMpysuex27Tmi6J5HRas3Maiyc55waAsG00KJ619AS2'
-STRIPE_SECRET_KEY = 'sk_test_51Ny5mISFMZ7tthqyGtGIkkrXzTGqFI7KEHVKEtrTLdQAxuNtfJ543UMed9beTC0PcTNYGRjgfDzCtaiQJeYWquhm00FbcfN0rA'
+STRIPE_PUBLIC_KEY = ''
+STRIPE_SECRET_KEY = ''
 
 
 
@@ -170,7 +170,7 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "reachtokavin@gmail.com"
-EMAIL_HOST_PASSWORD = "qwnksybpeomywcwv"
+EMAIL_HOST_PASSWORD = ""
 
 
 
