@@ -2,12 +2,13 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import  Cart, CartItem, Item, checkout
+from django.urls import reverse
 from item.models import Coupon
 from .forms import CheckoutForm
 from django.contrib import messages
 from django.conf import settings
 import stripe
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse, HttpResponseBadRequest, HttpResponse
 
 @login_required
 def add_to_cart(request, product_id):
@@ -36,6 +37,7 @@ def cart_view(request, discount=None):
     if discount:
         total_amount -= discount
         print(discount)
+    request.session['total_amount'] = total_amount
     return render(request, 'cart.html', {'cart_items': cart_items,'user_cart':user_cart, 'total_amount': total_amount, 'discount': discount})
     
 @login_required
@@ -179,25 +181,31 @@ def apply_coupon(request):
     
 def create_checkout_session(request):
     # Retrieve amount from request or calculate based on cart items
-    amount = 10000  # Amount in cents (e.g., $100)
-
-    # Create a Checkout session
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'unit_amount': amount,
-                'product_data': {
-                    'name': 'Your Product',
-                    'description': 'Description of your product',
+    amount = int(request.session.get('total_amount', 0)) # Amount in cents (e.g., $100)
+    try:
+    # Create a Checkout session 
+        amount = int(amount * 100)
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'inr',
+                    'unit_amount': amount,
+                    'product_data': {
+                        'name': 'Your Product',
+                        'description': 'Description of your product',
+                    },
                 },
-            },
-            'quantity': 1,
-        }],
-        mode='payment',
-        success_url='https://yourwebsite.com/success',
-        cancel_url='https://yourwebsite.com/cancel',
-    )
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url='https://kavin2610.github.io/Portfolio/',
+            cancel_url='https://kavin2610.github.io/Portfolio/',
+        )
+        print(session.url)
+        return redirect(session.url, code = 303)
 
-    return JsonResponse({'id': session.id})
+    
+    except Exception as e:
+        return HttpResponse(content=str(e), status=400)
+    #return JsonResponse({'id': session.id})
